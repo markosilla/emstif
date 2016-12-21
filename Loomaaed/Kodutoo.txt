@@ -1,0 +1,49 @@
+Kodutöö ülesanne (“Loomaaia loomad”)
+ 
+Tähtaeg
+08.01.2017 kell 23:59
+ 
+Tehnoloogilised soovitused
+-          Visual Studio 2013 või 2015 (edition pole oluline);
+-          ASP.NET MVC5 - veebirakenduse platformiks (C#);
+-          Web API 2 - äriloogika teenuste serveerimiseks;
+-          MS SQL SERVER – loomade ja nende liikide andmete hoidmiseks (versioon pole oluline);
+-          Entity Framework 6 - andmebaasiga suhtlemiseks;
+-          nUnit – võimalike unit-testide jaoks;
+ 
+Kui soovid ja jõuad, siis võid frondi poole peal AngularJS-i kasutada.
+ 
+Andmebaasi indikatiivne kirjeldus:
+Andmebaas peab sisaldama endas tabeleid, et hoida andmeid loomade ning nende liikide kohta (täpsem struktuur tuletada allolevast rakenduse kirjeldusest).
+ 
+Rakenduse kirjeldus
+Luua ASP.NET MVC5 veebirakendus koos sinna juurde käivate võimalike unit-testidega - piisab kahest VS projektist (üks rakenduse enda ja teine unit-testide jaoks).
+Andmete salvestamine andmebaasi (looma lisamine, muutmine, kustutamine) peab toimuma vastu Web API 2 teenuse kontrollerit (st. mitte kasutada MVC actioneid selleks, vaid front-end pöördub otse javascriptiga Web API teenuste poole).
+ 
+Kasutajana rakendusele navigeerides avaneb tabel andmebaasi salvestatud loomadest järgnevate veergudega:
+-          “Liik” – looma liigi nimetus;
+-          “Nimi” – looma nimi;
+-          “Sünniaasta” – looma sünniaasta;
+-          “Vanus” – looma vanus aastates;
+-          “Lisamisaeg” – millal loom esmaselt lisati;
+ 
+Kasutajana soovin näha tabeli jaluses (footer) kõikide sisestatud loomade keskmist vanust (aastates).
+ 
+Kasutajana soovin sisestatud looma kustutada.
+ 
+Kasutajana soovin sisestatud looma andmeid muuta (looma liiki, nime, sünniaastat). Kõik andmed on kohustuslikud.
+ 
+Kasutajana soovin sisestada uut looma (looma liik, nimi, sünniaasta).
+ 
+Kasutajana soovin, et kõik looma liigi valikud (looma lisamisel/muutmisel) käiksid dropdown valikkasti kasutades (valikkasti väärtused andmebaasist).
+ 
+Kasutajana soovin, et rakendus ei lubaks mul sama liiki ja sama nimega looma mitmekordselt sisestada.
+ 
+Kasutajana soovin, et rakendus teavitaks mind vigastest andmetest inim-loetaval kujul (n; “Looma liik valimata” jne.).
+ 
+Lisainfo
+-          Looma liike ei pea saama hallata, piisab kui SQL andmebaasi genereerimise skript lisab mõned;
+-          Võimalikud ümardamised, visuaalsed lahendused jms. on ülesande lahendaja otsustada;
+-          Kui EF ise automaatselt baasi struktuuri ja sisu automaatselt ei genereeri, siis SQL andmebaasi genereerimise skriptid lisada ülesande lahendusele;
+-          Rakenduse lokaalse-ülesseadmise ja käivitamise juhend lisada ülesande lahendusele;
+-          Lahendus palun teha kättesaadavaks mõnes avalikus koodi-repositooriumis ning teavitada sellest või saata kokku-zipituna aadressile Kristjan.haavik@fits.me ;
