@@ -1,22 +1,4 @@
-enable-migrations -ContextTypeName LoomaaedDb -Force
-add-migration -ConfigurationTypeName Loomaaed.DAL.Migrations.Configuration
-update-database -ConfigurationTypeName Loomaaed.DAL.Migrations.Configuration -Verbose
+enable-migrations -ContextTypeName ZooDb -Force
+add-migration -ConfigurationTypeName Zoo.DAL.Migrations.Configuration
+update-database -ConfigurationTypeName Zoo.DAL.Migrations.Configuration -Verbose
 
-USE [LoomaaedDb]
-GO
-
-print (ABS(CAST(CAST(NEWID() AS VARBINARY) AS INT)) % 2) + 1
-
-INSERT INTO [dbo].[Loom]
-           ([Nimi]
-           ,[Synniaasta]
-           ,[Vanus]
-           ,[Lisamisaeg]
-           ,[Liik_Id])
-     VALUES
-           ((SELECT COUNT(*) FROM dbo.Loom) + ' ' + (SELECT COUNT(*) FROM dbo.Loom),
-		   GETDATE(),
-		   (SELECT COUNT(*) FROM dbo.Loom),
-           GETDATE(),
-           ( (ABS(CAST(CAST(NEWID() AS VARBINARY) AS INT)) % 2) + 1 ))
-GO

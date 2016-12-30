@@ -297,16 +297,7 @@ GO
 
 
 
-USE [ZooDb];
-  
-  
-GO  
-ALTER TABLE Animal.Name
-ADD CONSTRAINT AK_Password UNIQUE (Id, Name);   
-GO  
-
-
-/* SHOULD FAIL */
+/* SKIP BELOW - MUSTSHOULD FAIL */
 
 
 
