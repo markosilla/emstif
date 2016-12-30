@@ -1,14 +1,14 @@
 ﻿"use strict";
 
-
 angular.module('controllers.animal', [])
 .controller('ListAnimalsCtrl', ["$scope", "dbAnimals", "dbCrud", "$location", function ($scope, dbAnimals, dbCrud, $location) {
-
+    var currentTime = new Date();
     function getAverageAge() {
         var nofanimals = $scope.animals.length;
         var sumOfAges = 0;
+
         $scope.animals.forEach(function (a) {
-            sumOfAges += a.YearOfBirth;
+            sumOfAges += (currentTime.getFullYear() - a.YearOfBirth);
         });
         return sumOfAges / nofanimals;
     };
@@ -23,6 +23,10 @@ angular.module('controllers.animal', [])
     };
     dbAnimals.query(function (data) {
         $scope.animals = data;
+        $scope.animals.forEach(function (a) {
+            a.age = (currentTime.getFullYear() - a.YearOfBirth);
+        });
+
         dbCrud.pagination($scope, $scope.animals, "predicate", "reverse");
         $scope.averageage = getAverageAge();
         
@@ -34,41 +38,35 @@ angular.module('controllers.animal', [])
         $scope.species = data;
     });
 
-
-    //$scope.loom = {};
-
-    $scope.saveButtonText = "Create animal";
-
-
-    //toastr.warning("Nimi " + $scope.animal.Nimi);
-
     $scope.submitForm = function () {
-        var temp = angular.copy($scope.animal);
-        //var data = { "Id": 3, "Nimi": "Test", "Vanus": "User", "Synniaasta": "testuser", "IsApproved": true, "IsOnlineNow": true, "IsChecked": true };
 
-        var request = {
-            method: 'POST',
-            url: '/api/animals',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: temp
+        if ($scope.animal_form.$valid) {
+            var dto = angular.copy($scope.animal);
+            dto.CreationDate = new Date();
+
+            dbSpecies.query(function (species) {
+                dto.species.Name = species;
+            });
+
+            var request = { method: 'POST', url: '/api/animals', headers: { 'Content-Type': 'application/json' }, data: dto }
+
+            $http(request)
+            .then(function successCallback(response) {
+
+                toastr.success("Animal \"" + model.Name + "\" created");
+                $location.path("/animals");
+
+            }, function errorCallback(response) {
+                // Showing errors.
+                //$scope.errorName = data.errors.name;
+                //$scope.errorUserName = data.errors.username;
+                //$scope.errorEmail = data.errors.email;
+                toastr.error("Error: " + response.status);
+            });
+
+        } else {
+            //toastr.error("Validation error!");
         }
-
-        $http(request)
-        .then(function successCallback(response) {
-
-
-
-            $scope.animal = response;
-            toastr.success("NO FAKING ERROR" + response);
-        }, function errorCallback(response) {
-            // Showing errors.
-            //$scope.errorName = data.errors.name;
-            //$scope.errorUserName = data.errors.username;
-            //$scope.errorEmail = data.errors.email;
-            toastr.error("FAKING ERROR");
-        });
     }
 
 

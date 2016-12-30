@@ -1,45 +1,31 @@
 ﻿<script type="text/ng-template" id="partials/animal.html">
-    <form name="animal_form" ng-submit="submitForm()">
+    <form novalidate name="animal_form" ng-submit="submitForm()">
         <div class="panel panel-default">
             <!-- Default panel contents -->
             <div class="panel-heading">
                 <div class="btn-group">
-                    <button class='btn btn-primary dropdown-toggle' type="submit" ng-init="saveButtonText='Save'" title="{{saveButtonText}}">{{saveButtonText}}</button>
+                    <button class='btn btn-primary dropdown-toggle' type="submit" ng-disabled="animal_form.$invalid" ng-init="saveButtonText='Save'" title="{{saveButtonText}}">{{saveButtonText}}</button>
                 </div>
             </div>
             <div class="panel-body">
-                <!--<th>Id</th>
-                <th>Nimi</th>
-                <th>Sünniaasta</th>
-                <th>Vanus</th>
-                <th>Lisamisaeg</th>
-                <th>Loomaliik</th>-->
-
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Nimi" aria-describedby="basic-addon1" ng-model="animal.Nimi">
+                    <input type="text" class="form-control" placeholder="Name" aria-describedby="basic-addon1" ng-model="animal.Name" name="animal.Name" required>
+                    <!--<span ng-show="animal_form.animal.Name.$error">The value is not a valid integer!</span>-->
                 </div>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Vanus" aria-describedby="basic-addon1" ng-model="animal.Vanus">
+                    <input type="number" class="form-control" style="width:200px" placeholder="Year Of Birth" aria-describedby="basic-addon1" ng-model="animal.YearOfBirth" min="0" max="2016" required integer>
+                    <!--<span ng-show="animal_form.size.$error.integer">The value is not a valid integer!</span>
+                    <span ng-show="animal_form.size.$error.min || animal_form.size.$error.max">The value must be in range 0 to 2016</span>Think something here-->
                 </div>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Sünniaasta" aria-describedby="basic-addon1" ng-model="animal.Synniaasta">
+                    <select ng-model="animal.Species" style="width:200px" required ng-options="s as s.Name for s in species">
+                        <!--<option style="display:none" value class>Select a species</option>
+                        <option ng-repeat="s in species" value="{{s.Id}}">{{s.Name}}</option>-->
+                    </select>
                 </div>
-                <!--<div class="btn-group" uib-dropdown is-open="status.isopen">
-                    <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
-                        Loomaliik <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                        <li role="menuitem" ng-repeat="species in species"><a href="#">{{species.Nimetus}}</a></li>
-                    </ul>
-                </div>-->
-                <select ng-model="animal.Liik.Nimetus">
-                    <option ng-repeat="s in species" value="{{s.Id}}">{{s.Nimetus}}</option>
-                </select>
-
-            </div>
+                </div>
             <div class="panel-footer">
             </div>
-
         </div>
     </form>
 </script>
