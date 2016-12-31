@@ -38,22 +38,37 @@ angular.module('controllers.animal', [])
         $scope.species = data;
     });
 
+    $scope.cancelForm = function () {
+        $location.path("/animals");
+    }
+
     $scope.submitForm = function () {
+        
+
+        //Implemnt validator which checks for duplications realtime...
+        //dbAnimals.query(function (data) {
+        //    $scope.animals = data;
+        //    $scope.animals.forEach(function (a) {
+        //        toastr.warning(a.Name + "ff " + $scope.animal.Name);
+        //        if (a.Name == $scope.animal.Name) {
+        //            toastr.warning("ff " + $scope.animals.length);
+        //            toastr.error("Animal with the provided name already exists in the database!")
+        //            return 4;
+        //        }
+        //    });
+
+        //});
 
         if ($scope.animal_form.$valid) {
             var dto = angular.copy($scope.animal);
             dto.CreationDate = new Date();
-
-            dbSpecies.query(function (species) {
-                dto.species.Name = species;
-            });
 
             var request = { method: 'POST', url: '/api/animals', headers: { 'Content-Type': 'application/json' }, data: dto }
 
             $http(request)
             .then(function successCallback(response) {
 
-                toastr.success("Animal \"" + model.Name + "\" created");
+                toastr.success("Animal \"" + $scope.animal.Name + "\" created");
                 $location.path("/animals");
 
             }, function errorCallback(response) {

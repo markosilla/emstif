@@ -34,6 +34,11 @@ namespace Zoo.Web.Controllers
             return Ok(animal);
         }
 
+        public object GetWhereName(string name)
+        {
+            return db.Animals.FirstOrDefault(u => u.Name == name);
+        }
+
         // PUT: api/Animals/5 - Update animal, POST body JSON str
         [ResponseType(typeof(void))]
         public IHttpActionResult PutAnimal(int id, Animal animal)
@@ -78,10 +83,13 @@ namespace Zoo.Web.Controllers
                 return BadRequest(ModelState);
             }
 
+            animal.Species = db.Species.Find(animal.Species.Id);
+
             db.Animals.Add(animal);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = animal.Id }, animal);
+
+            return Ok(animal);
         }
 
         // DELETE: api/Animals/5 - Delete animal, POST body JSON str

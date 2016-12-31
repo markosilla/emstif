@@ -1,26 +1,26 @@
 ﻿<script type="text/ng-template" id="partials/animal.html">
-    <form novalidate name="animal_form" ng-submit="submitForm()">
+    <form class="css-form" novalidate name="animal_form" ng-submit="submitForm()">
         <div class="panel panel-default">
             <!-- Default panel contents -->
             <div class="panel-heading">
                 <div class="btn-group">
-                    <button class='btn btn-primary dropdown-toggle' type="submit" ng-disabled="animal_form.$invalid" ng-init="saveButtonText='Save'" title="{{saveButtonText}}">{{saveButtonText}}</button>
+                    <button class='btn btn-primary dropdown-toggle' ng-disabled="animal_form.$invalid" type="submit" title="Save">Add New</button>
+                </div>
+                <div class="btn-group">
+                    <button class='btn btn-primary dropdown-toggle' title="Cancel" ng-click="cancelForm()">Cancel</button>
                 </div>
             </div>
             <div class="panel-body">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Name" aria-describedby="basic-addon1" ng-model="animal.Name" name="animal.Name" required>
-                    <!--<span ng-show="animal_form.animal.Name.$error">The value is not a valid integer!</span>-->
+                    <input type="text" class="form-control" placeholder="Name" aria-describedby="basic-addon1" ng-model="animal.Name" name="animal.Name" required unique-animal>
                 </div>
                 <div class="input-group">
-                    <input type="number" class="form-control" style="width:200px" placeholder="Year Of Birth" aria-describedby="basic-addon1" ng-model="animal.YearOfBirth" min="0" max="2016" required integer>
-                    <!--<span ng-show="animal_form.size.$error.integer">The value is not a valid integer!</span>
-                    <span ng-show="animal_form.size.$error.min || animal_form.size.$error.max">The value must be in range 0 to 2016</span>Think something here-->
+                    <input type="number" class="form-control" style="width:200px" placeholder="Year Of Birth" aria-describedby="basic-addon1" ng-model="animal.YearOfBirth" required integer >
                 </div>
                 <div class="input-group">
-                    <select ng-model="animal.Species" style="width:200px" required ng-options="s as s.Name for s in species">
-                        <!--<option style="display:none" value class>Select a species</option>
-                        <option ng-repeat="s in species" value="{{s.Id}}">{{s.Name}}</option>-->
+                    <select ng-model="animal.Species" style="width:200px" required ng-options="s as s.Name for s in species"  unique-animal>
+                        <option style="display:block" value class>Select species</option>
+
                     </select>
                 </div>
                 </div>

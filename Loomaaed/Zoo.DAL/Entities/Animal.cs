@@ -11,7 +11,6 @@ namespace Zoo.DAL.Entities
 
         [Required]
         [StringLength(255)]
-        [Index(IsUnique = true)]
         public string Name { get; set; }
         [Required]
         public int YearOfBirth { get; set; }
