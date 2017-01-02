@@ -16,7 +16,7 @@ var app = angular.module(
 
 app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $routeProvider.when('/animals', { templateUrl: 'partials/animals.html', controller: 'ListAnimalsCtrl' });
-   // $routeProvider.when('/animal/edit/:id', { templateUrl: 'partials/animal.html', controller: 'EditAnimalCtrl' });
+    $routeProvider.when('/animal/edit/:id', { templateUrl: 'partials/animal.html', controller: 'EditAnimalCtrl' });
     $routeProvider.when('/animal/create', { templateUrl: 'partials/animal.html', controller: 'CreateAnimalCtrl' });
     $routeProvider.otherwise({ redirectTo: '/animals' });
 

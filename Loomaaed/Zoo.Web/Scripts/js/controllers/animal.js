@@ -24,133 +24,101 @@ angular.module('controllers.animal', [])
     dbAnimals.query(function (data) {
         $scope.animals = data;
         $scope.animals.forEach(function (a) {
+            /* Siit tuleb ebatäpsus, kuna kasutaja tahtis muuta sünniaastat. */
             a.age = (currentTime.getFullYear() - a.YearOfBirth);
         });
 
         dbCrud.pagination($scope, $scope.animals, "predicate", "reverse");
         $scope.averageage = getAverageAge();
-        
     });
 }])
-.controller('CreateAnimalCtrl', ["$scope", "dbCrud", "dbAnimals", "dbSpecies", "$location", "$http", function ($scope, dbCrud, dbAnimals, dbSpecies, $location, $http) {
-
-    dbSpecies.query(function (data) {
-        $scope.species = data;
-    });
+.controller('CreateAnimalCtrl', ["$scope", "dbCrud", "dbAnimals", "dbSpecies", "$location", "$http", "$q", "$routeParams", "$resource", function ($scope, dbCrud, dbAnimals, dbSpecies, $location, $http, $q, $routeParams, $resource) {
 
     $scope.cancelForm = function () {
         $location.path("/animals");
     }
 
-    $scope.submitForm = function () {
+    $q.all([
+        dbSpecies.query().$promise,
+    ]).then(function (results) {
+        $scope.species = results[0];
+        $scope.animal = new dbAnimals();
         
+        $scope.submitForm = function () {
+            if ($scope.animal_form.$valid) {
+                $scope.animal.CreationDate = new Date();
+                $scope.animal.$save(function () {
+                    toastr.success("Animal \"" + $scope.animal.Name + "\" created");
+                    $location.path("/animals");
+                });
+            } else {
+                brLog.error("Correct the errors and try again");
+            }
+        };
+        //$scope.submitForm = function () {
+        //    if ($scope.animal_form.$valid) {
+        //        var dto = angular.copy($scope.animal);
+        //        dto.CreationDate = new Date();
 
-        //Implemnt validator which checks for duplications realtime...
-        //dbAnimals.query(function (data) {
-        //    $scope.animals = data;
-        //    $scope.animals.forEach(function (a) {
-        //        toastr.warning(a.Name + "ff " + $scope.animal.Name);
-        //        if (a.Name == $scope.animal.Name) {
-        //            toastr.warning("ff " + $scope.animals.length);
-        //            toastr.error("Animal with the provided name already exists in the database!")
-        //            return 4;
-        //        }
-        //    });
+        //        var request = { method: 'POST', url: '/api/animals', headers: { 'Content-Type': 'application/json' }, data: dto }
 
-        //});
+        //        $http(request)
+        //        .then(function successCallback(response) {
 
-        if ($scope.animal_form.$valid) {
-            var dto = angular.copy($scope.animal);
-            dto.CreationDate = new Date();
+        //            toastr.success("Animal \"" + $scope.animal.Name + "\" created");
+        //            $location.path("/animals");
 
-            var request = { method: 'POST', url: '/api/animals', headers: { 'Content-Type': 'application/json' }, data: dto }
+        //        }, function errorCallback(response) {
+        //            // Showing errors.
+        //            //$scope.errorName = data.errors.name;
+        //            //$scope.errorUserName = data.errors.username;
+        //            //$scope.errorEmail = data.errors.email;
+        //            toastr.error("Error: " + response.status);
+        //        });
 
-            $http(request)
-            .then(function successCallback(response) {
+        //    } else {
+        //        //toastr.error("Validation error!");
+        //    }
+        //}
+    });
 
-                toastr.success("Animal \"" + $scope.animal.Name + "\" created");
-                $location.path("/animals");
+}])
+.controller('EditAnimalCtrl', ["$scope", "dbCrud", "dbAnimals", "dbSpecies", "$location", "$http", "$q", "$routeParams", function ($scope, dbCrud, dbAnimals, dbSpecies, $location, $http, $q, $routeParams) {
 
-            }, function errorCallback(response) {
-                // Showing errors.
-                //$scope.errorName = data.errors.name;
-                //$scope.errorUserName = data.errors.username;
-                //$scope.errorEmail = data.errors.email;
-                toastr.error("Error: " + response.status);
-            });
-
-        } else {
-            //toastr.error("Validation error!");
-        }
+    $scope.cancelForm = function () {
+        $location.path("/animals");
     }
 
+    $q.all([
+        dbSpecies.query().$promise,
+        dbAnimals.get({ id: parseInt($routeParams.id, 10) }).$promise
+    ]).then(function (results) {
+        $scope.species = results[0];
+        $scope.animal = results[1];
 
+        $scope.submitForm = function () {
+            //$scope.animal.Name = 'something else';
+            $scope.animal.$update(function () {
+                toastr.success("Animal \"" + $scope.animal.Name + "\" updated");
+                $location.path("/animals");
+            });
+        };
 
-        //DROPDOWN
-        //    $scope.items.sel
+        //$scope.species = results[0];
 
-        //$scope.status = {
-        //    isopen: false
+        //$scope.Name = results[1].Name;
+
+        //$scope.saveButtonText = "Save";
+        //$scope.save = function () {
+        //    var temp = angular.copy($scope.model);
+        //    if ($scope.main_form.$valid) {
+        //        temp.$save({}, function (model, headers) {
+        //            toastr.success("Station \"" + model.Name + "\" saved");
+
+        //        });
+        //    } else {
+        //        brLog.error("Correct the errors and try again");
+        //    }
         //};
-
-        //$scope.toggled = function (open) {
-        //    toastr.error(open);
-        //};
-
-        //$scope.toggleDropdown = function ($event) {
-        //    $event.preventDefault();
-        //    $event.stopPropagation();
-        //    $scope.status.isopen = !$scope.status.isopen;
-        //};
-
-        //$scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
+    });
 }]);
-    //.controller('EditAnimalCtrl', ["$scope", "brCrud", "brStations", "brResources", "brConnections", "brMessageBox", "brLog", "$location", "$routeParams", "$q", function ($scope, brCrud, brStations, brResources, brConnections, brMessageBox, brLog, $location, $routeParams, $q) {
-    //$q.all([
-    //    brResources.query().$promise,
-    //    brConnections.query().$promise,
-    //    brStations.get({ id: parseInt($routeParams.id, 10) }).$promise
-    //]).then(function (results) {
-
-
-    //    $scope.resources = results[0];
-    //    $scope.connections = results[1];
-    //    var originalName = results[2].Name;
-    //    $scope.model = results[2];
-    //    $scope.jumboTron.getSlogan = function () {
-    //        return "Station \"" + $scope.model.Name + "\" with " + $scope.model.Magazines.length + " connected magazines, " +
-    //            $scope.model.Functions.length + " functions, " +
-    //            $scope.model.Data.length + " data, and " +
-    //            $scope.model.Files.length + " files.";
-    //    }
-    //    brCrud.connections($scope);
-    //    brCrud.functions($scope);
-    //    brCrud.data($scope);
-    //    brCrud.files($scope);
-    //    $scope.saveButtonText = "Save";
-    //    $scope.save = function () {
-    //        var temp = angular.copy($scope.model);
-    //        if ($scope.main_form.$valid) {
-    //            temp.$save({}, function (model, headers) {
-    //                toastr.success("Station \"" + model.Name + "\" saved");
-    //                $scope.uploadFiles("/Files/UploadStationFile", { id: model.ID }).then(function () {
-    //                    $location.path("/stations");
-    //                });
-    //            });
-    //        } else {
-    //            brLog.error("Correct the errors and try again");
-    //        }
-    //    };
-    //    $scope.showDeleteButton = true;
-    //    $scope.deleteStation = function () {
-    //        $scope.modal = brMessageBox("The station \"" + $scope.model.Name + "\" will be deleted from the database.", "Confirm delete!");
-    //        $scope.modal.result.then(function () {
-    //            brStations.remove({ id: $scope.model.ID }, function () {
-    //                toastr.success("Station \"" + $scope.model.Name + "\" deleted");
-    //                $location.path("/stations");
-    //            });
-    //        });
-    //    };
-    //brCrud.logWatches();
-    //});
-    //}]);

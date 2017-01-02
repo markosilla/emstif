@@ -12,7 +12,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
-                        <th>Year Of Birth</th>
+                        <th>Birthyear</th>
                         <th>Age</th>
                         <th>CreationDate</th>
                         <th>Species</th>
@@ -40,7 +40,7 @@
                             {{animal.Species.Name}}
                         </td>
                         <td style="text-align: center;">
-                            <a href="#/animal/edit/{{animal.Id}}" title="Edit animal"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                            <a href="animal/edit/{{animal.Id}}" title="Edit animal"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                             <a ng-click="deleteAnimal(animal)" title="Delete animal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                         </td>
                     </tr>

@@ -3,7 +3,7 @@
         <div class="panel panel-default">
             <!-- Default panel contents -->
             <div class="panel-heading">
-                <div class="btn-group">
+                <div class="btn-group"><!-- ng-disabled="animal_form.$invalid" -->
                     <button class='btn btn-primary dropdown-toggle' ng-disabled="animal_form.$invalid" type="submit" title="Save">Add New</button>
                 </div>
                 <div class="btn-group">
@@ -11,19 +11,91 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Name" aria-describedby="basic-addon1" ng-model="animal.Name" name="animal.Name" required unique-animal>
+
+                <!--<div ng-class="{ 'has-error': animal_form.animalName.$dirty && animal_form.animalName.$invalid }">
+                    <label for="animalName" class="control-label">Animal name:</label>
+                    <div>
+                        <input class="form-control has-feedback" id="name" name="animalName"
+                               required
+                               placeholder="Animal name"
+                               ng-minlength="1"
+                               ng-model="animal.Name"
+                               uib-tooltip="{{animal_form.animalName.$valid ? '' : '{animal.msg}'}}"
+                               tooltip-trigger="focus"
+                               tooltip-placement="bottom"/>
+                        <span class="glyphicon glyphicon-ok-sign text-success form-control-feedback" aria-hidden="true"
+                              ng-show="animal_form.animalName.$valid"></span>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <input type="number" class="form-control" style="width:200px" placeholder="Year Of Birth" aria-describedby="basic-addon1" ng-model="animal.YearOfBirth" required integer >
+
+
+                <div ng-class="{ 'has-error': animal_form.birthYear.$dirty && animal_form.birthYear.$invalid }">
+                    <label for="birthYear" class="control-label">Birth year:</label>
+                    <div>
+                        <input type="number" class="form-control has-feedback" id="animalBirthyear" name="animalBirthyear"
+                               integer
+                               required
+                               placeholder="Birth Year"
+                               ng-minlength="4"
+                               ng-model="animal.YearOfBirth"
+                               uib-tooltip="{{animal_form.animalBirthyear.$valid ? '' : 'Animal name must be set!'}}"
+                               tooltip-trigger="focus"
+                               tooltip-placement="bottom"/>
+                        <span class="glyphicon glyphicon-ok-sign text-success form-control-feedback" aria-hidden="true"
+                              ng-show="animal_form.name.$valid"></span>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <select ng-model="animal.Species" style="width:200px" ng-options="s as s.Name for s in species" required unique-animal>
+
+                <div style="width:200px" ng-class="{ 'has-error': animal_form.name.$dirty && animal_form.name.$invalid }">
+                    <label for="name" class="control-label">Species:</label>
+                    <div>
+                        <select ng-options="s as s.Name for s in species" class="form-control has-feedback" id="animalSpecies" name="animalSpecies"
+                                   required
+                                   placeholder="Species"
+                                   ng-model="animal.Species"
+                                   uib-tooltip="{{animal_form.animalSpecies.$valid ? '' : 'Minimum 4 letters please.'}}"
+                                   tooltip-trigger="focus"
+                                   tooltip-placement="bottom">
+                            <option style="display:block" value="-1">Select species</option>
+                            </select>
+                            <span class="glyphicon glyphicon-ok-sign text-success form-control-feedback" aria-hidden="true"
+                                  ng-show="animal_form.name.$valid"></span>
+                    </div>
+                </div>-->
+
+                <div ng-class="{ 'has-error': animal_form.animalName.$dirty && animal_form.animalName.$invalid }">
+                    <label for="animalName" class="control-label">Animal name:</label>
+                    <input type="text" 
+                           class="form-control has-feedback" 
+                           placeholder="Animal name" 
+                           aria-describedby="basic-addon1" 
+                           ng-model="animal.Name" 
+                           name="Name" 
+                           required unique-animal>
+                </div>
+                <div ng-class="{ 'has-error': animal_form.animalName.$dirty && animal_form.animalName.$invalid }">
+                    <label for="animalBirthyear" class="control-label">Birthyear:</label>
+                    <input type="number" 
+                           class="form-control has-feedback" 
+                           style="width:200px" 
+                           placeholder="Birthyear" 
+                           aria-describedby="basic-addon1" 
+                           ng-model="animal.YearOfBirth"
+                           name="YearOfBirth"
+                           required integer >
+                </div>
+                <div ng-class="{ 'has-error': animal_form.animalName.$dirty && animal_form.animalName.$invalid }">
+                    <label for="animalSpecies" class="control-label">Species:</label>
+                    <select ng-model="animal.Species" 
+                            class="form-control has-feedback" 
+                            style="width:200px" 
+                            ng-options="s as s.Name for s in species" 
+                            required unique-animal>
                         <option style="display:block" value="-1">Select species</option>
 
                     </select>
                 </div>
-                </div>
+            </div>
             <div class="panel-footer">
             </div>
         </div>

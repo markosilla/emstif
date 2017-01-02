@@ -44,6 +44,7 @@ namespace Zoo.Web.Controllers
 
         // PUT: api/Animals/5 - Update animal, POST body JSON str
         [ResponseType(typeof(void))]
+        [HttpPut]
         public IHttpActionResult PutAnimal(int id, Animal animal)
         {
             if (!ModelState.IsValid)

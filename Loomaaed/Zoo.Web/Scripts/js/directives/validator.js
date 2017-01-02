@@ -15,12 +15,12 @@ app.directive('integer', function () {
                 var maxYear = new Date().getFullYear();
 
                 if (INTEGER_REGEXP.test(viewValue) == false) {
-                    toastr.error("Year of birth must be integer value!");
+                    toastr.error("Birthyear must be an integer value!");
                     return false;
                 }
 
                 if (viewValue > maxYear) {
-                    toastr.error("Year of birth can not be in the future!");
+                    toastr.error("Birthyear can not be in the future!");
                     return false;
                 }
 
