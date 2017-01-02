@@ -35,32 +35,41 @@ angular.module('directives.uniqueAnimal', [])
 app.directive('uniqueAnimal', ["dbAnimals", function (dbAnimals) {
     return {
         require: 'ngModel',
-        restrict: 'A',
+        //restrict: 'A',
+        //scope: true,
         link: function (scope, elm, attrs, ctrl) {
-            var original;
-            ctrl.$formatters.unshift(function (modelValue) {
-                original = modelValue;
-                return modelValue;
-            });
-
-            SIINPOOLELEI
-            toastr.error("Animal name  is not unique!" + animal.Name);
-            // using push() here to run it as the last parser, after we are sure that other validators were run
-            ctrl.$parsers.push(function (viewValue) {
-                if (viewValue && viewValue !== original) {
-                    dbAnimals.get({ Name: viewValue }, function (data) {
-                        if (data.Name == viewValue) {
-                            ctrl.$setValidity('uniqueAnimal', false);
-                            toastr.error("Animal name " + viewValue + " is not unique!" + $scope.animal.Species);
-                            toastr.error("Animal name " + viewValue + " is not unique!");
-                        } else {
-                            ctrl.$setValidity('uniqueAnimal', true);
-                            //toastr.success("Animal name " + viewValue + " is unique!");
-                        }
-                    });
-                    return viewValue;
+            ctrl.$validators.uniqueAnimal = function (modelValue, viewValue) {
+                if (ctrl.$isEmpty(modelValue)) {
+                    // consider empty models to be valid
+                    return true;
                 }
-            });
+
+                //species selected
+                if (viewValue.Id && scope.animal) {
+                    if (scope.animal.Name) {
+                        dbAnimals.get({ name: scope.animal.Name, speciesId: viewValue.Id }, function (data) {
+                            if (data && data.Name && data.Species.Name) {
+                                toastr.error("Animal with name " + data.Name + " and species " + data.Species.Name + " is not unique!");
+                                return false;
+                            }
+                        });
+                    }
+                }
+                else if (viewValue && scope.animal) {
+                    //name typed - check that both name and species are present
+                    if (scope.animal.Species) {
+                        dbAnimals.get({ name: viewValue, speciesId: scope.animal.Species.Id }, function (data) {
+                            if (data && data.Name && data.Species.Name) {
+                                toastr.error("Animal with name " + data.Name + " and species " + data.Species.Name + " is not unique!");
+                                return false;
+                            }
+                        });
+                    }
+                }
+
+                // it is valid
+                return true;
+            };
         }
     };
 }]);

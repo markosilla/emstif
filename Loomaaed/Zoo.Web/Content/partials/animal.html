@@ -18,8 +18,8 @@
                     <input type="number" class="form-control" style="width:200px" placeholder="Year Of Birth" aria-describedby="basic-addon1" ng-model="animal.YearOfBirth" required integer >
                 </div>
                 <div class="input-group">
-                    <select ng-model="animal.Species" style="width:200px" required ng-options="s as s.Name for s in species"  unique-animal>
-                        <option style="display:block" value class>Select species</option>
+                    <select ng-model="animal.Species" style="width:200px" ng-options="s as s.Name for s in species" required unique-animal>
+                        <option style="display:block" value="-1">Select species</option>
 
                     </select>
                 </div>

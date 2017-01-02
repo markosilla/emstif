@@ -34,9 +34,12 @@ namespace Zoo.Web.Controllers
             return Ok(animal);
         }
 
-        public object GetWhereName(string name)
+        public object GetWhereName(string name, int speciesId)
         {
-            return db.Animals.FirstOrDefault(u => u.Name == name);
+            /*TODO: optimize */
+            return db.Animals
+                .Include(s => s.Species)
+                .FirstOrDefault(u => u.Name == name && u.Species.Id == speciesId);
         }
 
         // PUT: api/Animals/5 - Update animal, POST body JSON str
