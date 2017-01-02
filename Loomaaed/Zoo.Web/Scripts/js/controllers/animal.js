@@ -97,7 +97,7 @@ angular.module('controllers.animal', [])
         $scope.animal = results[1];
 
         $scope.submitForm = function () {
-            //$scope.animal.Name = 'something else';
+            $scope.animal.id = $scope.animal.Id;
             $scope.animal.$update(function () {
                 toastr.success("Animal \"" + $scope.animal.Name + "\" updated");
                 $location.path("/animals");

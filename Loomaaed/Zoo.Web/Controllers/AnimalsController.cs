@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Zoo.DAL;
@@ -16,24 +17,25 @@ namespace Zoo.Web.Controllers
         private ZooDb db = new ZooDb();
 
         // GET: api/Animals - List all animals, POST body empty
+        [HttpGet]
         public IEnumerable<object> GetAnimals()
         {
             return db.Animals.OrderBy(x => x.Name);
         }
 
         // GET: api/Animals/5 - Get single animal, POST body empty
-        [ResponseType(typeof(Animal))]
-        public IHttpActionResult GetAnimal(int id)
+        [HttpGet]
+        public HttpResponseMessage GetAnimal(int id)
         {
             Animal animal = db.Animals.Find(id);
             if (animal == null)
             {
-                return NotFound();
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Animal not found for the given Id");
             }
-
-            return Ok(animal);
+            return Request.CreateResponse(HttpStatusCode.OK, animal);
         }
 
+        [HttpGet]
         public object GetWhereName(string name, int speciesId)
         {
             /*TODO: optimize */
@@ -43,18 +45,17 @@ namespace Zoo.Web.Controllers
         }
 
         // PUT: api/Animals/5 - Update animal, POST body JSON str
-        [ResponseType(typeof(void))]
         [HttpPut]
-        public IHttpActionResult PutAnimal(int id, Animal animal)
+        public HttpResponseMessage PutAnimal(int id, Animal animal)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Model state is not valid");
             }
 
             if (id != animal.Id)
             {
-                return BadRequest();
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Unable to find the animal with the given Id");
             }
 
             db.Entry(animal).State = EntityState.Modified;
@@ -67,7 +68,7 @@ namespace Zoo.Web.Controllers
             {
                 if (!AnimalExists(id))
                 {
-                    return NotFound();
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Unable to find the animal with the given Id");
                 }
                 else
                 {
@@ -75,16 +76,16 @@ namespace Zoo.Web.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // POST: api/Animals - New animal, POST body JSON str
-        //[ResponseType(typeof(Loom))]
-        public IHttpActionResult PostAnimal(Animal animal)
+        [HttpPost]
+        public HttpResponseMessage PostAnimal(Animal animal)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Unable to create the animal with the given Id");
             }
 
             animal.Species = db.Species.Find(animal.Species.Id);
@@ -92,24 +93,23 @@ namespace Zoo.Web.Controllers
             db.Animals.Add(animal);
             db.SaveChanges();
 
-
-            return Ok(animal);
+            return Request.CreateResponse<Animal>(HttpStatusCode.Created, animal);
         }
 
         // DELETE: api/Animals/5 - Delete animal, POST body JSON str
-        [ResponseType(typeof(Animal))]
-        public IHttpActionResult DeleteAnimal(int id)
+        [HttpDelete]
+        public HttpResponseMessage DeleteAnimal(int id)
         {
             Animal animal = db.Animals.Find(id);
             if (animal == null)
             {
-                return NotFound();
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Unable to delete the animal with the given Id");
             }
 
             db.Animals.Remove(animal);
             db.SaveChanges();
 
-            return Ok(animal);
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
         protected override void Dispose(bool disposing)
