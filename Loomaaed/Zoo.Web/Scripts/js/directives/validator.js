@@ -44,28 +44,28 @@ app.directive('uniqueAnimal', ["dbAnimals", function (dbAnimals) {
                     return true;
                 }
 
-                //species selected
-                if (viewValue.Id && scope.animal) {
-                    if (scope.animal.Name) {
-                        dbAnimals.get({ name: scope.animal.Name, speciesId: viewValue.Id }, function (data) {
-                            if (data && data.Name && data.Species.Name) {
-                                toastr.error("Animal with name " + data.Name + " and species " + data.Species.Name + " is not unique!");
-                                return false;
-                            }
-                        });
-                    }
-                }
-                else if (viewValue && scope.animal) {
-                    //name typed - check that both name and species are present
-                    if (scope.animal.Species) {
-                        dbAnimals.get({ name: viewValue, speciesId: scope.animal.Species.Id }, function (data) {
-                            if (data && data.Name && data.Species.Name) {
-                                toastr.error("Animal with name " + data.Name + " and species " + data.Species.Name + " is not unique!");
-                                return false;
-                            }
-                        });
-                    }
-                }
+                ////species selected
+                //if (viewValue.Id && scope.animal) {
+                //    if (scope.animal.Name) {
+                //        dbAnimals.get({ name: scope.animal.Name, speciesId: viewValue.Id }, function (data) {
+                //            if (data && data.Name && data.Species.Name) {
+                //                toastr.error("Animal with name " + data.Name + " and species " + data.Species.Name + " is not unique!");
+                //                return false;
+                //            }
+                //        });
+                //    }
+                //}
+                //else if (viewValue && scope.animal) {
+                //    //name typed - check that both name and species are present
+                //    if (scope.animal.Species) {
+                //        dbAnimals.get({ name: viewValue, speciesId: scope.animal.Species.Id }, function (data) {
+                //            if (data && data.Name && data.Species.Name) {
+                //                toastr.error("Animal with name " + data.Name + " and species " + data.Species.Name + " is not unique!");
+                //                return false;
+                //            }
+                //        });
+                //    }
+                //}
 
                 // it is valid
                 return true;

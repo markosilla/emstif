@@ -21,7 +21,7 @@ namespace Zoo.Test
             db.Animals.Add(animal);
             db.SaveChanges();
             
-            Animal stored = db.Animals.Find(animal.Id);
+            Animal stored = db.Animals.Find(animal.AnimalID);
             
             Assert.AreEqual(stored.Name, testname);
         }

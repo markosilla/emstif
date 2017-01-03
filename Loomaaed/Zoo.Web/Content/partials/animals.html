@@ -22,7 +22,7 @@
                 <tbody>
                     <tr ng-repeat="animal in pagination.currentItems">
                         <td>
-                            {{animal.Id}}
+                            {{animal.AnimalID}}
                         </td>
                         <td>
                             {{animal.Name}}
@@ -40,7 +40,7 @@
                             {{animal.Species.Name}}
                         </td>
                         <td style="text-align: center;">
-                            <a href="animal/edit/{{animal.Id}}" title="Edit animal"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                            <a href="animal/edit/{{animal.AnimalID}}" title="Edit animal"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                             <a ng-click="deleteAnimal(animal)" title="Delete animal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                         </td>
                     </tr>

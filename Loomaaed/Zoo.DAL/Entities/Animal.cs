@@ -6,17 +6,11 @@ namespace Zoo.DAL.Entities
 {
     public class Animal
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
-        public int Id { get; set; }
-
-        [Required]
-        [StringLength(255)]
+        public int AnimalID { get; set; }
         public string Name { get; set; }
-        [Required]
         public int YearOfBirth { get; set; }
-        [Required]
         public DateTime CreationDate { get; set; }
-        [Required]
+        public int SpeciesID { get; set; }
         public virtual Species Species { get; set; }
     }
 }

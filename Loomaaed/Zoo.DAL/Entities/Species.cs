@@ -5,10 +5,7 @@ namespace Zoo.DAL.Entities
 {
     public class Species
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
-        public int Id { get; set; }
-        [Required]
-        [StringLength(255)]
+        public int SpeciesID { get; set; }
         public string Name { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace Zoo.Web.Controllers
         [HttpGet]
         public IEnumerable<object> GetAnimals()
         {
-            return db.Animals.OrderBy(x => x.Name);
+            return db.Animals.Include(s => s.Species).OrderBy(x => x.Name);
         }
 
         // GET: api/Animals/5 - Get single animal, POST body empty
@@ -41,7 +41,7 @@ namespace Zoo.Web.Controllers
             /*TODO: optimize */
             return db.Animals
                 .Include(s => s.Species)
-                .FirstOrDefault(u => u.Name == name && u.Species.Id == speciesId);
+                .FirstOrDefault(u => u.Name == name && u.Species.SpeciesID == speciesId);
         }
 
         // PUT: api/Animals/5 - Update animal, POST body JSON str
@@ -53,10 +53,12 @@ namespace Zoo.Web.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Model state is not valid");
             }
 
-            if (id != animal.Id)
+            if (id != animal.AnimalID)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Unable to find the animal with the given Id");
             }
+
+            animal.Species = db.Species.Find(animal.SpeciesID);
 
             db.Entry(animal).State = EntityState.Modified;
 
@@ -88,7 +90,7 @@ namespace Zoo.Web.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Unable to create the animal with the given Id");
             }
 
-            animal.Species = db.Species.Find(animal.Species.Id);
+            animal.Species = db.Species.Find(animal.SpeciesID);
 
             db.Animals.Add(animal);
             db.SaveChanges();
@@ -123,7 +125,7 @@ namespace Zoo.Web.Controllers
 
         private bool AnimalExists(int id)
         {
-            return db.Animals.Count(e => e.Id == id) > 0;
+            return db.Animals.Count(e => e.AnimalID == id) > 0;
         }
     }
 }

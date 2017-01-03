@@ -129,11 +129,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[Species](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[SpeciesID] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](255) NOT NULL,
  CONSTRAINT [PK_dbo.Species] PRIMARY KEY CLUSTERED 
 (
-	[Id] ASC
+	[SpeciesID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
 UNIQUE NONCLUSTERED 
 (
@@ -151,46 +151,6 @@ GO
 
 
 
---USE [ZooDb]
---GO
-
---/****** Object:  Table [dbo].[Animal]    Script Date: 30.12.2016 22:08:02 ******/
---SET ANSI_NULLS ON
---GO
-
---SET QUOTED_IDENTIFIER ON
---GO
-
---CREATE TABLE [dbo].[Animal](
---	[Id] [int] IDENTITY(1,1) NOT NULL,
---	[Name] [nvarchar](255) NOT NULL,
---	[YearOfBirth] [int] NOT NULL,
---	[CreationDate] [datetime] DEFAULT GETDATE(),
---	[Species_Id] [int] NOT NULL,
--- CONSTRAINT [PK_dbo.Animal] PRIMARY KEY CLUSTERED 
---(
---	[Id] ASC
---)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
---UNIQUE NONCLUSTERED 
---(
---	[Name] ASC
---)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
---) ON [PRIMARY]
-
---GO
-
---ALTER TABLE [dbo].[Animal] ADD  CONSTRAINT [DF_Animal_CreationDate]  DEFAULT (getdate()) FOR [CreationDate]
---GO
-
---ALTER TABLE [dbo].[Animal]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Animal_dbo.Species_Species_Id] FOREIGN KEY([Species_Id])
---REFERENCES [dbo].[Species] ([Id])
---ON DELETE CASCADE
---GO
-
---ALTER TABLE [dbo].[Animal] CHECK CONSTRAINT [FK_dbo.Animal_dbo.Species_Species_Id]
---GO
-
-
 /* USING COMPOSITE KEY!!!!!*/
 USE [ZooDb]
 GO
@@ -203,26 +163,26 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[Animal](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[AnimalID] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](255) NOT NULL,
 	[YearOfBirth] [int] NOT NULL,
 	[CreationDate] [datetime] NOT NULL CONSTRAINT [DF_Animal_CreationDate]  DEFAULT (getdate()),
-	[Species_Id] [int] NOT NULL,
+	[SpeciesID] [int] NOT NULL,
  CONSTRAINT [PK_dbo.Animal] PRIMARY KEY CLUSTERED 
 (
 	[Name] ASC,
-	[Species_Id] ASC
+	[SpeciesID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
 
-ALTER TABLE [dbo].[Animal]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Animal_dbo.Species_Species_Id] FOREIGN KEY([Species_Id])
-REFERENCES [dbo].[Species] ([Id])
+ALTER TABLE [dbo].[Animal]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Animal_dbo.Species_SpeciesID] FOREIGN KEY([SpeciesID])
+REFERENCES [dbo].[Species] ([SpeciesID])
 ON DELETE CASCADE
 GO
 
-ALTER TABLE [dbo].[Animal] CHECK CONSTRAINT [FK_dbo.Animal_dbo.Species_Species_Id]
+ALTER TABLE [dbo].[Animal] CHECK CONSTRAINT [FK_dbo.Animal_dbo.Species_SpeciesID]
 GO
 
 
@@ -278,7 +238,7 @@ INSERT INTO [dbo].[Animal]
            ([Name]
            ,[YearOfBirth]
            ,[CreationDate]
-           ,[Species_Id])
+           ,[SpeciesID])
      VALUES
            ('Kiisu', 1980, GETDATE(), '1')
 GO
@@ -290,7 +250,7 @@ INSERT INTO [dbo].[Animal]
            ([Name]
            ,[YearOfBirth]
            ,[CreationDate]
-           ,[Species_Id])
+           ,[SpeciesID])
      VALUES
            ('Muri', 1986, GETDATE(), '2')
 GO
@@ -299,7 +259,7 @@ INSERT INTO [dbo].[Animal]
            ([Name]
            ,[YearOfBirth]
            ,[CreationDate]
-           ,[Species_Id])
+           ,[SpeciesID])
      VALUES
            ('Cameli', 1987, GETDATE(), '3')
 GO
@@ -308,7 +268,7 @@ INSERT INTO [dbo].[Animal]
            ([Name]
            ,[YearOfBirth]
            ,[CreationDate]
-           ,[Species_Id])
+           ,[SpeciesID])
      VALUES
            ('Pärdik', 2000, GETDATE(), '4')
 GO
@@ -317,7 +277,7 @@ INSERT INTO [dbo].[Animal]
            ([Name]
            ,[YearOfBirth]
            ,[CreationDate]
-           ,[Species_Id])
+           ,[SpeciesID])
      VALUES
            ('Amuu', 2010, GETDATE(), '5')
 GO
@@ -326,7 +286,7 @@ INSERT INTO [dbo].[Animal]
            ([Name]
            ,[YearOfBirth]
            ,[CreationDate]
-           ,[Species_Id])
+           ,[SpeciesID])
      VALUES
            ('Nemo', 2015, GETDATE(), '6')
 GO
@@ -346,7 +306,7 @@ INSERT INTO [dbo].[Animal]
            ([Name]
            ,[YearOfBirth]
            ,[CreationDate]
-           ,[Species_Id])
+           ,[SpeciesID])
      VALUES
            ('Nemo', 2015, GETDATE(), '6')
 GO

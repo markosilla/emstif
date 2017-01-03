@@ -13,11 +13,11 @@ angular.module('controllers.animal', [])
         return sumOfAges / nofanimals;
     };
     $scope.deleteAnimal = function (animal) {
-        dbAnimals.remove({ id: animal.Id }, function () {
+        dbAnimals.remove({ id: animal.AnimalID }, function () {
             var index = $scope.animals.indexOf(animal);
             $scope.animals.splice(index, 1);
 
-            toastr.success('Animal ' + animal.Id + ' deleted!')
+            toastr.success('Animal ' + animal.AnimalID + ' deleted!')
             $scope.averageage = getAverageAge();
         });
     };
@@ -34,6 +34,7 @@ angular.module('controllers.animal', [])
 }])
 .controller('CreateAnimalCtrl', ["$scope", "dbCrud", "dbAnimals", "dbSpecies", "$location", "$http", "$q", "$routeParams", "$resource", function ($scope, dbCrud, dbAnimals, dbSpecies, $location, $http, $q, $routeParams, $resource) {
 
+    $scope.SaveButtonText = "Add New";
     $scope.cancelForm = function () {
         $location.path("/animals");
     }
@@ -55,36 +56,12 @@ angular.module('controllers.animal', [])
                 brLog.error("Correct the errors and try again");
             }
         };
-        //$scope.submitForm = function () {
-        //    if ($scope.animal_form.$valid) {
-        //        var dto = angular.copy($scope.animal);
-        //        dto.CreationDate = new Date();
-
-        //        var request = { method: 'POST', url: '/api/animals', headers: { 'Content-Type': 'application/json' }, data: dto }
-
-        //        $http(request)
-        //        .then(function successCallback(response) {
-
-        //            toastr.success("Animal \"" + $scope.animal.Name + "\" created");
-        //            $location.path("/animals");
-
-        //        }, function errorCallback(response) {
-        //            // Showing errors.
-        //            //$scope.errorName = data.errors.name;
-        //            //$scope.errorUserName = data.errors.username;
-        //            //$scope.errorEmail = data.errors.email;
-        //            toastr.error("Error: " + response.status);
-        //        });
-
-        //    } else {
-        //        //toastr.error("Validation error!");
-        //    }
-        //}
     });
 
 }])
 .controller('EditAnimalCtrl', ["$scope", "dbCrud", "dbAnimals", "dbSpecies", "$location", "$http", "$q", "$routeParams", function ($scope, dbCrud, dbAnimals, dbSpecies, $location, $http, $q, $routeParams) {
 
+    $scope.SaveButtonText = "Save Changes";
     $scope.cancelForm = function () {
         $location.path("/animals");
     }
@@ -95,30 +72,18 @@ angular.module('controllers.animal', [])
     ]).then(function (results) {
         $scope.species = results[0];
         $scope.animal = results[1];
-
+        $scope.animal.SpeciesID = $scope.animal.Species.SpeciesID;
         $scope.submitForm = function () {
-            $scope.animal.id = $scope.animal.Id;
-            $scope.animal.$update(function () {
-                toastr.success("Animal \"" + $scope.animal.Name + "\" updated");
-                $location.path("/animals");
-            });
+            
+            if ($scope.animal_form.$valid) {
+                $scope.animal.id = $scope.animal.AnimalID;
+                $scope.animal.$update(function () {
+                    toastr.success("Animal \"" + $scope.animal.Name + "\" changed!");
+                    $location.path("/animals");
+                });
+            } else {
+                brLog.error("Correct the errors and try again");
+            }
         };
-
-        //$scope.species = results[0];
-
-        //$scope.Name = results[1].Name;
-
-        //$scope.saveButtonText = "Save";
-        //$scope.save = function () {
-        //    var temp = angular.copy($scope.model);
-        //    if ($scope.main_form.$valid) {
-        //        temp.$save({}, function (model, headers) {
-        //            toastr.success("Station \"" + model.Name + "\" saved");
-
-        //        });
-        //    } else {
-        //        brLog.error("Correct the errors and try again");
-        //    }
-        //};
     });
 }]);
