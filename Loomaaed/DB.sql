@@ -297,19 +297,19 @@ GO
 
 
 
-USE [ZooDb]
-GO
-INSERT INTO [dbo].[Species] ([Name]) VALUES ('Kala')
-GO
+--USE [ZooDb]
+--GO
+--INSERT INTO [dbo].[Species] ([Name]) VALUES ('Kala')
+--GO
 
-INSERT INTO [dbo].[Animal]
-           ([Name]
-           ,[YearOfBirth]
-           ,[CreationDate]
-           ,[SpeciesID])
-     VALUES
-           ('Nemo', 2015, GETDATE(), '6')
-GO
+--INSERT INTO [dbo].[Animal]
+--           ([Name]
+--           ,[YearOfBirth]
+--           ,[CreationDate]
+--           ,[SpeciesID])
+--     VALUES
+--           ('Nemo', 2015, GETDATE(), '6')
+--GO
 
 
 
