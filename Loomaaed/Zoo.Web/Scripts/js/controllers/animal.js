@@ -44,6 +44,7 @@ angular.module('controllers.animal', [])
     ]).then(function (results) {
         $scope.species = results[0];
         $scope.animal = new dbAnimals();
+        $scope.currentYear = new Date().getFullYear();
         
         $scope.submitForm = function () {
             if ($scope.animal_form.$valid) {
@@ -53,7 +54,7 @@ angular.module('controllers.animal', [])
                     $location.path("/animals");
                 });
             } else {
-                brLog.error("Correct the errors and try again");
+                toastr.error("Correct the errors and try again");
             }
         };
     });
@@ -72,6 +73,8 @@ angular.module('controllers.animal', [])
     ]).then(function (results) {
         $scope.species = results[0];
         $scope.animal = results[1];
+        $scope.currentYear = new Date().getFullYear();
+
         $scope.animal.SpeciesID = $scope.animal.Species.SpeciesID;
         $scope.submitForm = function () {
             
@@ -82,7 +85,7 @@ angular.module('controllers.animal', [])
                     $location.path("/animals");
                 });
             } else {
-                brLog.error("Correct the errors and try again");
+                toastr.error("Correct the errors and try again");
             }
         };
     });

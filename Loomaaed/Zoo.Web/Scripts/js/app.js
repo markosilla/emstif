@@ -9,7 +9,7 @@ var app = angular.module(
     'services.dbCrud',
     'controllers.main',
     'controllers.animal',
-    'directives.yearofbirth',
+    //'directives.yearofbirth',
     'directives.uniqueAnimal',
     'ui.bootstrap']
 );
